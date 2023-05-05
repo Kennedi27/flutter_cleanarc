@@ -33,15 +33,19 @@ class TextDefaultStyle extends StatelessWidget {
 class TextTitleStyle extends StatelessWidget {
   final String text;
   final Color fontColor;
-
+  final TextAlign? textAlign;
   const TextTitleStyle(
-      {Key? key, required this.text, this.fontColor = textPrimaryColor})
+      {Key? key,
+      required this.text,
+      this.textAlign,
+      this.fontColor = textPrimaryColor})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: TextStyle(
         fontSize: fSizeTitle,
         fontWeight: FontWeight.bold,
