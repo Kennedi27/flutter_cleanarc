@@ -152,6 +152,8 @@ class ButtonFlexibleWithSizeCustom extends StatelessWidget {
   final FontWeight fontWeight;
   final double? width;
   final double? height;
+  final Color? borderColor;
+  final double borderWidth;
 
   const ButtonFlexibleWithSizeCustom(
       {Key? key,
@@ -161,10 +163,12 @@ class ButtonFlexibleWithSizeCustom extends StatelessWidget {
       this.bgColor,
       this.width,
       this.height,
+      this.borderColor,
       this.paddingHorizontal = 1,
       this.paddingVertical = 1,
       this.fontSize,
       this.borderRadius = 0,
+      this.borderWidth = 1.0,
       this.fontWeight = FontWeight.bold})
       : super(key: key);
 
@@ -175,7 +179,9 @@ class ButtonFlexibleWithSizeCustom extends StatelessWidget {
       child: TextButton(
         onPressed: buttonAct,
         style: TextButton.styleFrom(
-            padding: EdgeInsets.zero, minimumSize: const Size(20, 20)),
+          padding: EdgeInsets.zero,
+          minimumSize: const Size(20, 20),
+        ),
         child: Container(
           height: height,
           width: width,
@@ -186,7 +192,10 @@ class ButtonFlexibleWithSizeCustom extends StatelessWidget {
           ),
           decoration: BoxDecoration(
               color: bgColor ?? primaryColor,
-              border: Border.all(color: primaryColor),
+              border: Border.all(
+                color: borderColor ?? primaryColor,
+                width: borderWidth,
+              ),
               borderRadius: BorderRadius.circular(borderRadius)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
