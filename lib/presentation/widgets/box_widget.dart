@@ -5,6 +5,8 @@ import '../../config/theme/size_config.dart';
 class BoxSizeWidget extends StatefulWidget {
   final Widget? child;
   final double boxRadius;
+  final double? boxRadiusTop;
+  final double? boxRadiusBottom;
   final Color boxBgColor;
   final Color boxBorderColor;
   final double boxBorderWidth;
@@ -14,6 +16,7 @@ class BoxSizeWidget extends StatefulWidget {
   final double? boxHeight;
   final bool hideOverflow;
   final bool withShadow;
+  final double minHeight;
 
   // ignore: prefer_const_constructors_in_immutables
   BoxSizeWidget(
@@ -21,6 +24,9 @@ class BoxSizeWidget extends StatefulWidget {
       this.child,
       this.boxWidth,
       this.boxHeight,
+      this.boxRadiusTop,
+      this.boxRadiusBottom,
+      this.minHeight = boxesDefault,
       this.hideOverflow = false,
       this.withShadow = false,
       this.boxBgColor = defaultColor,
@@ -45,9 +51,18 @@ class _BoxSizeWidget extends State<BoxSizeWidget> {
           horizontal: widget.boxPaddingHorizontal),
       decoration: BoxDecoration(
         color: widget.boxBgColor,
-        borderRadius: BorderRadius.circular(widget.boxRadius),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(widget.boxRadiusTop ?? widget.boxRadius),
+          topRight: Radius.circular(widget.boxRadiusTop ?? widget.boxRadius),
+          bottomLeft:
+              Radius.circular(widget.boxRadiusBottom ?? widget.boxRadius),
+          bottomRight:
+              Radius.circular(widget.boxRadiusBottom ?? widget.boxRadius),
+        ),
         border: Border.all(
-            color: widget.boxBorderColor, width: widget.boxBorderWidth),
+          color: widget.boxBorderColor,
+          width: widget.boxBorderWidth,
+        ),
         boxShadow: [
           BoxShadow(
             color: greyColor,
@@ -57,8 +72,8 @@ class _BoxSizeWidget extends State<BoxSizeWidget> {
         ],
       ),
       child: ConstrainedBox(
-          constraints: const BoxConstraints(
-              minHeight: boxesDefault, minWidth: boxesDefault),
+          constraints: BoxConstraints(
+              minHeight: widget.minHeight, minWidth: boxesDefault),
           child: SizedBox(
             height: widget.boxHeight,
             width: widget.boxWidth,
