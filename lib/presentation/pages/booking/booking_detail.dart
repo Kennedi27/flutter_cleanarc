@@ -4,6 +4,7 @@ import '../../../config/theme/colors_config.dart';
 import '../../../config/theme/size_config.dart';
 import '../../widgets/box_widget.dart';
 import '../../widgets/form/button_widget.dart';
+import '../../widgets/form/text_input.dart';
 import '../../widgets/slide_button.dart';
 import '../../widgets/text_widget.dart';
 import 'booking_complete.dart';
@@ -320,7 +321,7 @@ class _BookingDetailPage extends State<BookingDetailPage> {
                         height: 40,
                         width: 150,
                         buttonAct: () {
-                          showModal(context);
+                          showModalAuth(context);
                         },
                         buttonText: 'Process Payment',
                         fontSize: 14,
@@ -356,4 +357,144 @@ class _BookingDetailPage extends State<BookingDetailPage> {
       currentProgress = currentProgress + 1;
     });
   }
+
+  void showModalAuth(BuildContext context, {bool withPasscode = false}) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return BoxSizeWidget(
+          boxPaddingHorizontal: 20,
+          boxPaddingVertical: 20,
+          minHeight: 200,
+          boxWidth: screenWidth,
+          hideOverflow: false,
+          boxRadiusTop: 15,
+          withShadow: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: !withPasscode
+                ? <Widget>[
+                    const TextTitleStyle(
+                      text: "Use Biometic to Process the Payment",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    const Icon(
+                      Icons.fingerprint,
+                      color: primaryColor,
+                      size: 80,
+                    ),
+                    const SizedBox(height: 20),
+                    ButtonFlexibleWithSizeCustom(
+                      paddingVertical: 15,
+                      width: screenWidth,
+                      buttonAct: () {
+                        Navigator.pop(context);
+                        // showModalAuth(context, withPasscode: true);
+                        nextProgress();
+                      },
+                      borderColor: greyColor,
+                      buttonText: "Use Passcode Instead",
+                      borderWidth: 0.5,
+                      fontSize: 14,
+                      bgColor: defaultColor,
+                      txtColor: primaryColor,
+                      borderRadius: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ]
+                : <Widget>[
+                    const TextTitleStyle(
+                      text: "Use Passcode to Process the Payment",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: const [
+                        TextInputCustom(
+                          inputHeight: 40,
+                          inputWidth: 40,
+                          inputBorderRadius: 5,
+                          inputBgColor: defaultColor,
+                          inputBorderColor: greyColor,
+                          inputBorderWidth: 0.5,
+                          inputKeyboardType: TextInputType.number,
+                          inputTextAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ButtonFlexibleWithSizeCustom(
+                      paddingVertical: 15,
+                      width: screenWidth,
+                      buttonAct: () {
+                        Navigator.pop(context);
+                        showModalAuth(context, withPasscode: false);
+                      },
+                      borderColor: greyColor,
+                      buttonText: "Use Biometric Instead",
+                      borderWidth: 0.5,
+                      fontSize: 14,
+                      bgColor: defaultColor,
+                      txtColor: primaryColor,
+                      borderRadius: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+Future<T?> showModalBottomSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  Color? backgroundColor,
+  double? elevation,
+  ShapeBorder? shape,
+  Clip? clipBehavior,
+  BoxConstraints? constraints,
+  Color? barrierColor,
+  bool isScrollControlled = false,
+  bool useRootNavigator = false,
+  bool isDismissible = true,
+  bool enableDrag = true,
+  bool useSafeArea = false,
+  RouteSettings? routeSettings,
+  AnimationController? transitionAnimationController,
+  Offset? anchorPoint,
+}) {
+  assert(debugCheckHasMediaQuery(context));
+  assert(debugCheckHasMaterialLocalizations(context));
+
+  final NavigatorState navigator =
+      Navigator.of(context, rootNavigator: useRootNavigator);
+  return navigator.push(
+    ModalBottomSheetRoute<T>(
+      builder: builder,
+      capturedThemes:
+          InheritedTheme.capture(from: context, to: navigator.context),
+      isScrollControlled: isScrollControlled,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      backgroundColor: backgroundColor,
+      elevation: elevation,
+      shape: shape,
+      clipBehavior: clipBehavior,
+      constraints: constraints,
+      isDismissible: isDismissible,
+      modalBarrierColor:
+          barrierColor ?? Theme.of(context).bottomSheetTheme.modalBarrierColor,
+      enableDrag: enableDrag,
+      settings: routeSettings,
+      transitionAnimationController: transitionAnimationController,
+      anchorPoint: anchorPoint,
+      useSafeArea: useSafeArea,
+    ),
+  );
 }
