@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../config/theme/colors_config.dart';
 import '../../../config/theme/size_config.dart';
 import '../../widgets/box_widget.dart';
+import '../../widgets/form/button_widget.dart';
+import '../../widgets/form/text_input.dart';
 import '../../widgets/text_widget.dart';
 
 class BookingPayment extends StatefulWidget {
@@ -375,82 +377,4 @@ class _BookingPayment extends State<BookingPayment> {
       ],
     );
   }
-}
-
-void showModal(BuildContext context) {
-  showModalBottomSheet<void>(
-    isScrollControlled: true,
-    context: context,
-    builder: (BuildContext context) {
-      return SizedBox(
-        height: 200,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text('Hi do'),
-              ElevatedButton(
-                child: const Text('Close BottomSheet'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
-
-Future<T?> showModalBottomSheet<T>({
-  required BuildContext context,
-  required WidgetBuilder builder,
-  Color? backgroundColor,
-  double? elevation,
-  ShapeBorder? shape,
-  Clip? clipBehavior,
-  BoxConstraints? constraints,
-  Color? barrierColor,
-  bool isScrollControlled = false,
-  bool useRootNavigator = false,
-  bool isDismissible = true,
-  bool enableDrag = true,
-  bool useSafeArea = false,
-  RouteSettings? routeSettings,
-  AnimationController? transitionAnimationController,
-  Offset? anchorPoint,
-}) {
-  assert(context != null);
-  assert(builder != null);
-  assert(isScrollControlled != null);
-  assert(useRootNavigator != null);
-  assert(isDismissible != null);
-  assert(enableDrag != null);
-  assert(debugCheckHasMediaQuery(context));
-  assert(debugCheckHasMaterialLocalizations(context));
-
-  final NavigatorState navigator =
-      Navigator.of(context, rootNavigator: useRootNavigator);
-  return navigator.push(
-    ModalBottomSheetRoute<T>(
-      builder: builder,
-      capturedThemes:
-          InheritedTheme.capture(from: context, to: navigator.context),
-      isScrollControlled: isScrollControlled,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      backgroundColor: backgroundColor,
-      elevation: elevation,
-      shape: shape,
-      clipBehavior: clipBehavior,
-      constraints: constraints,
-      isDismissible: isDismissible,
-      modalBarrierColor:
-          barrierColor ?? Theme.of(context).bottomSheetTheme.modalBarrierColor,
-      enableDrag: enableDrag,
-      settings: routeSettings,
-      transitionAnimationController: transitionAnimationController,
-      anchorPoint: anchorPoint,
-      useSafeArea: useSafeArea,
-    ),
-  );
 }
