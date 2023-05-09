@@ -66,7 +66,10 @@ class _BookingDetailPage extends State<BookingDetailPage> {
                           ),
                         ),
                         const SizedBox(width: 40),
-                        const TextSubTitleStyle(text: 'Booking Details'),
+                        TextSubTitleStyle(
+                            text: currentProgress == 0
+                                ? 'Booking Details'
+                                : 'Payment'),
                       ],
                     ),
                     const SizedBox(height: 35),
@@ -248,93 +251,95 @@ class _BookingDetailPage extends State<BookingDetailPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 4,
-        height: 70,
-        color: defaultColor,
-        child: Container(
-          padding:
-              const EdgeInsets.symmetric(vertical: 8, horizontal: paddingXXL),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: const [
-                      TextDefaultStyle(
-                        text: "SUBTOTAL",
-                        fontColor: greyColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                      SizedBox(width: 5),
-                      Icon(
-                        Icons.expand_more,
-                        size: 24,
-                        color: primaryColor,
-                      )
-                    ],
-                  ),
-                  const TextTitleStyle(
-                    text: "\$25",
-                  ),
-                ],
-              ),
-              // ButtonFlexibleCustom(
-              //   buttonAct: () {
-              //     nextProgress();
-              //   },
-              //   buttonText: "Slide to Book",
-              //   fontSize: 14,
-              //   bgColor: primaryColor,
-              //   txtColor: defaultColor,
-              //   paddingVertical: 8,
-              //   paddingHorizontal: 15,
-              //   borderRadius: 15,
-              //   fontWeight: FontWeight.w500,
-              // ),
-              SizedBox(
-                child: currentProgress == 0
-                    ? SliderButtonWidget(
-                        action: () {
-                          nextProgress();
-                        },
-                        height: 40,
-                        width: 150,
-                        backgroundColor: primaryColor,
-                        label: const Text(
-                          "Slide to Book",
-                          style: TextStyle(
-                              color: textSecondaryColor,
+      bottomNavigationBar: currentProgress != 2
+          ? BottomAppBar(
+              elevation: 4,
+              height: 70,
+              color: defaultColor,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: paddingXXL),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            TextDefaultStyle(
+                              text: "SUBTOTAL",
+                              fontColor: greyColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.expand_more,
+                              size: 24,
+                              color: primaryColor,
+                            )
+                          ],
+                        ),
+                        const TextTitleStyle(
+                          text: "\$25",
+                        ),
+                      ],
+                    ),
+                    // ButtonFlexibleCustom(
+                    //   buttonAct: () {
+                    //     nextProgress();
+                    //   },
+                    //   buttonText: "Slide to Book",
+                    //   fontSize: 14,
+                    //   bgColor: primaryColor,
+                    //   txtColor: defaultColor,
+                    //   paddingVertical: 8,
+                    //   paddingHorizontal: 15,
+                    //   borderRadius: 15,
+                    //   fontWeight: FontWeight.w500,
+                    // ),
+                    SizedBox(
+                      child: currentProgress == 0
+                          ? SliderButtonWidget(
+                              action: () {
+                                nextProgress();
+                              },
+                              height: 40,
+                              width: 150,
+                              backgroundColor: primaryColor,
+                              label: const Text(
+                                "Slide to Book",
+                                style: TextStyle(
+                                    color: textSecondaryColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14),
+                              ),
+                              icon: const Icon(
+                                Icons.chevron_right,
+                                color: textSecondaryColor,
+                              ),
+                            )
+                          : ButtonFlexibleWithSizeCustom(
+                              height: 40,
+                              width: 150,
+                              buttonAct: () {
+                                showModalAuth(context);
+                              },
+                              buttonText: 'Process Payment',
+                              fontSize: 14,
+                              bgColor: primaryColor,
+                              txtColor: defaultColor,
+                              borderRadius: 20,
                               fontWeight: FontWeight.w500,
-                              fontSize: 14),
-                        ),
-                        icon: const Icon(
-                          Icons.chevron_right,
-                          color: textSecondaryColor,
-                        ),
-                      )
-                    : ButtonFlexibleWithSizeCustom(
-                        height: 40,
-                        width: 150,
-                        buttonAct: () {
-                          showModalAuth(context);
-                        },
-                        buttonText: 'Process Payment',
-                        fontSize: 14,
-                        bgColor: primaryColor,
-                        txtColor: defaultColor,
-                        borderRadius: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
+                            ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            )
+          : null,
     );
   }
 
